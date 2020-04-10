@@ -30,7 +30,7 @@ module.exports = class Reporter {
       })
       .then(check => {
         return octocat.checks.update({
-          ...check,
+          check_run_id: check.id,
           output: {
             ...check.output,
             annotations
