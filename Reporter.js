@@ -19,11 +19,21 @@ module.exports = class Reporter {
             message: failureMessages.join('')
           })));
 
-    return octocat.checks.update({
-      check_run_id: process.env.GITHUB_RUN_ID,
-      output: {
-        annotations
-      }
+    return octocat.checks.listForRef({
+      ref: process.env.GITHUB_REF
     })
+      .then(checks => {
+        return checks.data.check_runs.find(({ name }) => name === 'Node.js CI')
+      })
+      .then(check => {
+        console.log(check)
+        return octocat.checks.update({
+          check_run_id: check.id,
+          output: {
+            annotations
+          }
+        })
+      })
+    
   }
 };
