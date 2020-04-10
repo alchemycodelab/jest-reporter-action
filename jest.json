@@ -4,13 +4,16 @@
           "owner": "jest-reporter",
           "pattern": [
               {
-                  "regexp": "^(.*)\\s(\\d+):(\\d+)\\s(Error): ([\\w\\s\\d:.<>()/-]*) (\\d)%%%%%$",
+                  "regexp": "^(.*)\\s(\\d+):(\\d+) (\\d)$",
                   "file": 1,
                   "line": 2,
                   "column": 3,
                   "severity": 4,
-                  "message": 5,
-                  "code": 6
+                  "code": 5
+              }, {
+                  "regexp": "^([\\w\\s\\d:.<>()/-]*)%%%%%$",
+                  "message": 1,
+                  "loop": true
               }
           ]
       }
