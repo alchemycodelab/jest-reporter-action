@@ -1,7 +1,7 @@
 const { info } = require('@actions/core');
 const { GitHub } = require('@actions/github');
 
-const octocat = new GitHub(TOKEN);
+const octocat = new GitHub('TOKEN');
 
 module.exports = class Reporter {
   onRunComplete(contexts, results) {
