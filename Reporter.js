@@ -20,8 +20,9 @@ module.exports = class Reporter {
           })));
 
     return octocat.checks.listForRef({
-      ref: process.env.GITHUB_REF,
-      owner: process.env.GITHUB_ACTOR
+      ref: process.env.GITHUB_SHA,
+      owner: process.env.GITHUB_REPOSITORY.split('/')[0],
+      repo: process.env.GITHUB_REPOSITORY.split('/')[1]
     })
       .then(checks => {
         return checks.data.check_runs.find(({ name }) => name === 'Node.js CI')
