@@ -1,6 +1,9 @@
 const { info } = require('@actions/core');
 const { GitHub } = require('@actions/github');
 
+const [owner, repo] = process.env.GITHUB_REPOSITORY;
+const ref = process.env.GITHUB_SHA;
+const workingDirectory = process.env.GITHUB_WORKSPACE;
 const octocat = new GitHub('TOKEN');
 
 module.exports = class Reporter {
@@ -9,7 +12,7 @@ module.exports = class Reporter {
       .flatMap(suiteResult => suiteResult.testResults
           .filter(({ status }) => status === 'failed')
           .map(({ failureMessages, location }) => ({
-            path: suiteResult.testFilePath.replace(process.env.GITHUB_WORKSPACE + '/', ''),
+            path: suiteResult.testFilePath.replace(`${workingDirectory}/`, ''),
             start_line: location.line,
             end_line: location.line,
             start_column: location.column,
@@ -19,26 +22,20 @@ module.exports = class Reporter {
           })));
 
     return octocat.checks.listForRef({
-      ref: process.env.GITHUB_SHA,
-      owner: process.env.GITHUB_REPOSITORY.split('/')[0],
-      repo: process.env.GITHUB_REPOSITORY.split('/')[1]
+      ref,
+      owner,
+      repo
     })
-      .then(checks => {
-        return checks.data.check_runs.find(({ name }) => name === 'build')
-      })
-      .then(check => {
-        return octocat.checks.update({
+      .then(checks => checks.data.check_runs.find(({ name }) => name === 'build'))
+      .then(check => octocat.checks.update({
           check_run_id: check.id,
-          owner: process.env.GITHUB_REPOSITORY.split('/')[0],
-          repo: process.env.GITHUB_REPOSITORY.split('/')[1],
+          owner,
+          repo,
           output: {
             summary: 'build and test node app',
             title: 'build',
             annotations
           }
-        })
-      })
-      .then(console.log)
-    
+        }));
   }
 };
