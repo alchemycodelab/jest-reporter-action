@@ -19,17 +19,16 @@ module.exports = class Reporter {
             message: failureMessages.join('')
           })));
 
+    console.log(annotations)
     return octocat.checks.listForRef({
       ref: process.env.GITHUB_SHA,
       owner: process.env.GITHUB_REPOSITORY.split('/')[0],
       repo: process.env.GITHUB_REPOSITORY.split('/')[1]
     })
       .then(checks => {
-        console.log(checks.data.check_runs)
         return checks.data.check_runs.find(({ name }) => name === 'build')
       })
       .then(check => {
-        console.log(check)
         return octocat.checks.update({
           check_run_id: check.id,
           output: {
