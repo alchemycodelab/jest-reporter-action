@@ -29,6 +29,7 @@ module.exports = class Reporter {
         return checks.data.check_runs.find(({ name }) => name === 'build')
       })
       .then(check => {
+        console.log(process.env.GITHUB_REPOSITORY.split('/'))
         return octocat.checks.update({
           check_run_id: check.id,
           owner: process.env.GITHUB_REPOSITORY.split('/')[0],
