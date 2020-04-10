@@ -1,0 +1,17 @@
+{
+  "problemMatcher": [
+      {
+          "owner": "jest-reporter",
+          "pattern": [
+              {
+                  "regexp": "^(.*)\s(\d+):(\d+)\s(Error): ([\w\s\d:.<>()/-]*)\n\n%\n\n",
+                  "file": 1,
+                  "line": 2,
+                  "column": 3,
+                  "severity": 4,
+                  "message": 5
+              }
+          ]
+      }
+  ]
+}

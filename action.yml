@@ -1,0 +1,10 @@
+name: 'Jest Reporter'
+description: 'Create github annotations on test failure'
+inputs:
+  flags:  # id of input
+    description: 'flags to append to test'
+    required: false
+    default: ''
+runs:
+  using: 'node12'
+  main: 'index.js'
