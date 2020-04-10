@@ -9,7 +9,7 @@ module.exports = class Reporter {
       .flatMap(suiteResult => suiteResult.testResults
           .filter(({ status }) => status === 'failed')
           .map(({ failureMessages, location }) => ({
-            path: suiteResult.testFilePath,
+            path: suiteResult.testFilePath.replace(process.env.GITHUB_WORKSPACE + '/', ''),
             start_line: location.line,
             end_line: location.line,
             start_column: location.column,
@@ -24,7 +24,6 @@ module.exports = class Reporter {
       repo: process.env.GITHUB_REPOSITORY.split('/')[1]
     })
       .then(checks => {
-        console.log(checks)
         return checks.data.check_runs.find(({ name }) => name === 'build')
       })
       .then(check => {
