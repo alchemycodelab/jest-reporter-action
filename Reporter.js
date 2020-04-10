@@ -1,12 +1,28 @@
-const { setFailed } = require('@actions/core');
+const { info } = require('@actions/core');
+const { GitHub } = require('@actions/github');
+
+const octocat = new GitHub(TOKEN);
+
 module.exports = class Reporter {
   onRunComplete(contexts, results) {
-    results.testResults.forEach(suiteResult => {
-      suiteResult.testResults
-        .filter(({ status }) => status === 'failed')
-        .forEach(({ failureMessages, location }) => {
-          setFailed(`${suiteResult.testFilePath} ${location.line}:${location.column} ${failureMessages.join('')}\n\n%\n\n`);
-        });
-    });
+    console.log(process.env.GITHUB_TOKEN);
+    const annotations = results.testResults
+      .flatMap(suiteResult => suiteResult.testResults
+          .filter(({ status }) => status === 'failed')
+          .map(({ failureMessages, location }) => ({
+            path: suiteResult.testFilePath,
+            start_line: location.line,
+            end_line: location.line,
+            start_column: location.column,
+            end_column: location.column,
+            annotation_lever: 'failure',
+            message: failureMessages.join('')
+          })));
+
+    return octocat.checks.update({
+      output: {
+        annotations
+      }
+    })
   }
 };
