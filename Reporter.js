@@ -25,6 +25,7 @@ module.exports = class Reporter {
       repo: process.env.GITHUB_REPOSITORY.split('/')[1]
     })
       .then(checks => {
+        console.log(checks.data.check_runs)
         return checks.data.check_runs.find(({ name }) => name === 'Node.js CI')
       })
       .then(check => {
