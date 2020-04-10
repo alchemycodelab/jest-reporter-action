@@ -20,7 +20,7 @@ module.exports = class Reporter {
           })));
 
     return octocat.checks.update({
-      check_run_id: 'CHECK_RUN_ID',
+      check_run_id: process.env.GITHUB_RUN_ID,
       output: {
         annotations
       }
