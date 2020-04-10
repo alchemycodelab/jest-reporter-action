@@ -32,7 +32,8 @@ module.exports = class Reporter {
         return octocat.checks.update({
           check_run_id: check.id,
           output: {
-            ...check.output,
+            summary: 'build and test node app',
+            title: 'build',
             annotations
           }
         })
