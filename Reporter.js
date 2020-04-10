@@ -31,6 +31,8 @@ module.exports = class Reporter {
       .then(check => {
         return octocat.checks.update({
           check_run_id: check.id,
+          owner: process.env.GITHUB_REPOSITORY.split('/')[0],
+          repo: process.env.GITHUB_REPOSITORY.split('/')[1],
           output: {
             summary: 'build and test node app',
             title: 'build',
