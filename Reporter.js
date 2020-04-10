@@ -26,7 +26,7 @@ module.exports = class Reporter {
     })
       .then(checks => {
         console.log(checks.data.check_runs)
-        return checks.data.check_runs.find(({ name }) => name === 'Node.js CI')
+        return checks.data.check_runs.find(({ name }) => name === 'build')
       })
       .then(check => {
         console.log(check)
