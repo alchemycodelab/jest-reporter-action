@@ -5,7 +5,6 @@ const octocat = new GitHub('TOKEN');
 
 module.exports = class Reporter {
   onRunComplete(contexts, results) {
-    console.log(process.env.GITHUB_TOKEN);
     const annotations = results.testResults
       .flatMap(suiteResult => suiteResult.testResults
           .filter(({ status }) => status === 'failed')
@@ -25,6 +24,7 @@ module.exports = class Reporter {
       repo: process.env.GITHUB_REPOSITORY.split('/')[1]
     })
       .then(checks => {
+        console.log(checks)
         return checks.data.check_runs.find(({ name }) => name === 'build')
       })
       .then(check => {
