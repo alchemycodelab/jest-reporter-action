@@ -15,7 +15,7 @@ module.exports = class Reporter {
             end_line: location.line,
             start_column: location.column,
             end_column: location.column,
-            annotation_lever: 'failure',
+            annotation_level: 'failure',
             message: failureMessages.join('')
           })));
 
