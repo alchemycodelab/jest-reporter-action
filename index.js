@@ -3,7 +3,9 @@ const fs = require('fs')
 
 try {
   const token = getInput('token');
-  const reporter = fs.readFileSync(`${__dirname}/Reporter.js`, { encoding: 'utf8' }).replace('TOKEN', token);
+  const reporter = fs.readFileSync(`${__dirname}/Reporter.js`, { encoding: 'utf8' })
+    .replace('TOKEN', token)
+    .reploce('CHECK_RUN_ID', process.env.GITHUB_RUN_ID);
   console.log(`${process.env.GITHUB_WORKSPACE}/Reporter.js`)
   fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/Reporter.js`, reporter);
   fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/jest.config.js`, `

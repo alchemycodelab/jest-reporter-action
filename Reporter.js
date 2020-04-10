@@ -20,6 +20,7 @@ module.exports = class Reporter {
           })));
 
     return octocat.checks.update({
+      check_run_id: 'CHECK_RUN_ID',
       output: {
         annotations
       }
