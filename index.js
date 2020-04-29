@@ -8,7 +8,7 @@ try {
   const { jest } = JSON.parse(fs.readFileSync(`${process.env.GITHUB_WORKSPACE}/package.json`, { encoding: 'utf8' }))
   const config = {
     ...jest,
-    reporters: ['default', '<rootDir>/Reporter.js']
+    reporters: ['default']
   }
   const reporter = fs.readFileSync(`${__dirname}/Reporter.js`, { encoding: 'utf8' })
     .replace('TOKEN', token);
