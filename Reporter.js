@@ -8,6 +8,7 @@ const octocat = new GitHub('TOKEN');
 
 module.exports = class Reporter {
   onRunComplete(contexts, results) {
+    if(!results.testResults.length) return;
     const annotations = results.testResults
       .flatMap(suiteResult => suiteResult.testResults
           .filter(({ status }) => status === 'failed')
