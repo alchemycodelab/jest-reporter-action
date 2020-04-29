@@ -4,11 +4,12 @@ const { GitHub } = require('@actions/github');
 const [owner, repo] = process.env.GITHUB_REPOSITORY;
 const ref = process.env.GITHUB_SHA;
 const workingDirectory = process.env.GITHUB_WORKSPACE;
-const octocat = new GitHub('TOKEN');
 
 module.exports = class Reporter {
   onRunComplete(contexts, results) {
     if(!results.testResults.length) return;
+    const octocat = new GitHub('TOKEN');
+
     const annotations = results.testResults
       .flatMap(suiteResult => suiteResult.testResults
           .filter(({ status }) => status === 'failed')
